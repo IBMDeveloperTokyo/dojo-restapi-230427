@@ -1,0 +1,4 @@
+myenv/
+memo.txt
+api_test/db.sqlite3
+api_test/drf_test/migrations
