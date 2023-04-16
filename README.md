@@ -21,7 +21,7 @@ http://localhost:8000/docs/
 
 # curlコマンドサンプル
 * create  
-curl -X POST -H "Content-Type: application/json" -d '{"user_name": "John Doe", "birth_day": "1990-01-01", "age": 33}' http://localhost:8000/api/userInfo/ -v
+curl -X POST -H "Content-Type: application/json" -d '{"user_name": "John Doe", "member_since": "1990-01-01", "membership_years": 33}' http://localhost:8000/api/userInfo/ -v
 
 * list  
 curl -X GET http://localhost:8000/api/userInfo/ -v
@@ -30,13 +30,13 @@ curl -X GET http://localhost:8000/api/userInfo/ -v
 curl -X GET http://localhost:8000/api/userInfo/3/ -v
 
 * update  
-curl -X PUT -H "Content-Type: application/json" -d '{"user_name": "Taro Updated", "birth_day": "1990-01-01","age": 1}' http://localhost:8000/api/userInfo/3/ -v
+curl -X PUT -H "Content-Type: application/json" -d '{"user_name": "Taro Updated", "member_since": "1990-01-01","membership_years": 1}' http://localhost:8000/api/userInfo/3/ -v
 
 * delete  
 curl -X DELETE http://localhost:8000/api/userInfo/3/ -v
 
 * 無効なリクエスト(必須項目のuser_nameが存在しない)  
-curl -X POST -H "Content-Type: application/json" -d '{"birth_day": "1990-01-01", "age": 33}' http://localhost:8000/api/userInfo/ -v
+curl -X POST -H "Content-Type: application/json" -d '{"member_since": "1990-01-01", "membership_years": 33}' http://localhost:8000/api/userInfo/ -v
 
 # コンテナ作成､実行
 * podman desktop起動
