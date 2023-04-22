@@ -1,8 +1,11 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from .models import UserInfo
 from .serializer import UserInfoSerializer
 from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import exception_handler
 
 class UserInfoViewSet(viewsets.ModelViewSet):
 
@@ -11,6 +14,9 @@ class UserInfoViewSet(viewsets.ModelViewSet):
 
     # シリアライザーを取得
     serializer_class = UserInfoSerializer
+
+    # 認証を必要とするように設定
+    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(operation_description="アイテムの一覧を取得します。")
     def list(self, request, *args, **kwargs):
@@ -35,3 +41,14 @@ class UserInfoViewSet(viewsets.ModelViewSet):
     @swagger_auto_schema(operation_description="指定されたアイテムを削除します。")
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
+    
+def custom_exception_handler(exc, context):
+    response = exception_handler(exc, context)
+
+    if response is not None:
+        response.data['status_code'] = response.status_code
+
+    if response.status_code == 401:
+        return Response({"detail": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+
+    return response
