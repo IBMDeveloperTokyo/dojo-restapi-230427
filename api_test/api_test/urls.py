@@ -17,9 +17,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework.documentation import include_docs_urls
-
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework.permissions import AllowAny
 from drf_test.views import UserInfoViewSet
+
+schema_view = get_schema_view(
+   openapi.Info(
+      title="会員情報API",
+      default_version='v1',
+      description="このAPIは、会員情報の取得、作成、更新、削除を行うためのエンドポイントを提供します。",
+   ),
+   public=True,
+   permission_classes=(AllowAny,),
+)
 
 # DefaultRouterクラスのインスタンスを代入
 defaultRouter = routers.DefaultRouter()
@@ -31,5 +42,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # defaultRouterをincludeする
     path('api/', include(defaultRouter.urls)),
-    path("docs/", include_docs_urls(title='API Document')),
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
